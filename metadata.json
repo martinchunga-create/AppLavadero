@@ -1,0 +1,5 @@
+{
+  "name": "Copy of Garment Inventory Dashboard",
+  "description": "A comprehensive dashboard for comparing garment inventory events, details, and quantities across different months and categories based on spreadsheet data.",
+  "requestFramePermissions": []
+}

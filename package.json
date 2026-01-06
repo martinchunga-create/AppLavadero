@@ -1,0 +1,21 @@
+
+{
+  "name": "dashboard-inventario-prendas",
+  "version": "1.0.0",
+  "description": "Dashboard de control de stock para directivos",
+  "main": "index.tsx",
+  "scripts": {
+    "start": "npx serve .",
+    "build": "echo 'No build step needed for ESM version'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "lucide-react": "^0.562.0",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "recharts": "^3.6.0",
+    "xlsx": "0.18.5"
+  }
+}
