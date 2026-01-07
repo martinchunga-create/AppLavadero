@@ -38,3 +38,9 @@
     <script type="module" src="./index.tsx"></script>
 </body>
 </html>
+
+<body class="bg-slate-50 text-slate-900 antialiased">
+    <div id="root"></div>
+    <script type="module" src="./index.tsx"></script>
+</body>
+</html>
