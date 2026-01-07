@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SISTEMA | Control de Inventario</title>
     
-    <!-- Tailwind CSS para los estilos -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Babel para compilar TSX en el navegador -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Babel Standalone con soporte para TypeScript y React -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js" crossorigin></script>
 
+    <!-- Mapa de importaciones limpio: Una sola versión de React para evitar errores de CORS -->
     <script type="importmap">
 {
   "imports": {
@@ -35,7 +36,7 @@
         background-color: #f8fafc;
       }
       #root:empty::before {
-        content: "Iniciando Sistema de Control...";
+        content: "Iniciando Sistema...";
         display: flex;
         justify-content: center;
         align-items: center;
@@ -43,27 +44,33 @@
         font-weight: 800;
         color: #2563eb;
         font-size: 1.2rem;
-        animation: pulse 1.5s infinite;
-      }
-      @keyframes pulse {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.5; }
       }
     </style>
 </head>
 <body class="antialiased">
     <div id="root"></div>
 
-    <!-- Script de carga con Babel para evitar el error de MIME type y permitir TSX -->
-    <script type="text/babel" data-type="module" src="./index.tsx"></script>
+    <!-- 
+      Usamos un bloque de script tipo 'text/babel' para cargar el punto de entrada.
+      Esto permite que Babel gestione la carga y transpilación, evitando el error de MIME type.
+    -->
+    <script type="text/babel" data-presets="typescript,react" data-type="module">
+      import "./index.tsx";
+    </script>
 
-    <!-- Capturador de errores críticos -->
     <script>
-      window.addEventListener('error', function(e) {
-        if (e.message.includes('MIME type') || e.message.includes('module script')) {
-          console.warn('Detectado error de tipo de archivo. Asegurando carga vía Babel...');
+      // Manejador de errores para dar feedback visual si algo falla
+      window.onerror = function(msg, url, line) {
+        if (msg.includes('MIME type')) return true; // Ignorar warning de MIME si Babel lo maneja
+        const root = document.getElementById('root');
+        if (root && root.innerHTML === "") {
+          root.innerHTML = '<div style="padding:40px; text-align:center; color:#e11d48;">' +
+            '<h2 style="font-weight:bold;">Error de Inicialización</h2>' +
+            '<p style="color:#64748b;">' + msg + '</p>' +
+            '<button onclick="location.reload()" style="margin-top:20px; padding:10px; background:#2563eb; color:white; border:none; border-radius:8px; cursor:pointer;">Reintentar</button>' +
+            '</div>';
         }
-      });
+      };
     </script>
 </body>
 </html>
