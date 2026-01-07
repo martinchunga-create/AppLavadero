@@ -8,10 +8,9 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Babel Standalone con soporte para TypeScript y React -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js" crossorigin></script>
+    <!-- Babel Standalone para procesar TSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    <!-- Mapa de importaciones limpio: Una sola versión de React para evitar errores de CORS -->
     <script type="importmap">
 {
   "imports": {
@@ -32,45 +31,40 @@
       body { 
         font-family: 'Inter', sans-serif; 
         margin: 0;
-        padding: 0;
         background-color: #f8fafc;
       }
       #root:empty::before {
-        content: "Iniciando Sistema...";
+        content: "Cargando Tablero de Control...";
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
         font-weight: 800;
         color: #2563eb;
-        font-size: 1.2rem;
+        animation: pulse 1.5s infinite;
       }
+      @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
     </style>
 </head>
 <body class="antialiased">
     <div id="root"></div>
 
     <!-- 
-      Usamos un bloque de script tipo 'text/babel' para cargar el punto de entrada.
-      Esto permite que Babel gestione la carga y transpilación, evitando el error de MIME type.
+      IMPORTANTE: Usamos 'data-src' o simplemente 'src' con type 'text/babel'.
+      Esto hace que Babel descargue el archivo como TEXTO, lo compile y lo ejecute,
+      saltándose las restricciones de MIME type del navegador.
     -->
-    <script type="text/babel" data-presets="typescript,react" data-type="module">
-      import "./index.tsx";
+    <script 
+      type="text/babel" 
+      data-presets="typescript,react" 
+      data-type="module" 
+      src="index.tsx">
     </script>
 
     <script>
-      // Manejador de errores para dar feedback visual si algo falla
-      window.onerror = function(msg, url, line) {
-        if (msg.includes('MIME type')) return true; // Ignorar warning de MIME si Babel lo maneja
-        const root = document.getElementById('root');
-        if (root && root.innerHTML === "") {
-          root.innerHTML = '<div style="padding:40px; text-align:center; color:#e11d48;">' +
-            '<h2 style="font-weight:bold;">Error de Inicialización</h2>' +
-            '<p style="color:#64748b;">' + msg + '</p>' +
-            '<button onclick="location.reload()" style="margin-top:20px; padding:10px; background:#2563eb; color:white; border:none; border-radius:8px; cursor:pointer;">Reintentar</button>' +
-            '</div>';
-        }
-      };
+      window.addEventListener('error', function(e) {
+        console.error("Error detectado:", e.message);
+      });
     </script>
 </body>
 </html>
