@@ -1,23 +1,24 @@
-
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 
-console.log("Iniciando montaje de la aplicación...");
+console.log("Intentando montar App...");
 
-const rootElement = document.getElementById('root');
-if (!rootElement) {
-  throw new Error("No se pudo encontrar el elemento root para montar la app");
-}
+const container = document.getElementById('root');
 
-try {
-  const root = ReactDOM.createRoot(rootElement);
-  root.render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  );
-  console.log("Aplicación montada con éxito");
-} catch (error) {
-  console.error("Error durante el renderizado inicial:", error);
+if (container) {
+  try {
+    const root = createRoot(container);
+    root.render(
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    );
+    console.log("App montada correctamente.");
+  } catch (err) {
+    console.error("Fallo al montar React:", err);
+    container.innerHTML = `<div style="padding:20px; color:red;">Error al iniciar React: ${err.message}</div>`;
+  }
+} else {
+  console.error("No se encontró el elemento #root en el DOM.");
 }
