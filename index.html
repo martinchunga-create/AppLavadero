@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SISTEMA | Control de Inventario Operativo</title>
+    <title>SISTEMA | Control de Inventario</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="importmap">
 {
@@ -27,21 +27,35 @@
         padding: 0;
         background-color: #f8fafc;
       }
-      /* Preloader simple */
       #root:empty::before {
-        content: "Cargando Sistema...";
+        content: "Iniciando Sistema...";
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
-        font-weight: bold;
-        color: #64748b;
-        font-family: sans-serif;
+        font-weight: 800;
+        color: #2563eb;
+        font-size: 1.2rem;
       }
     </style>
 </head>
 <body class="antialiased">
     <div id="root"></div>
+    <!-- Script de emergencia para capturar errores antes de que cargue React -->
+    <script>
+      window.onerror = function(msg, url, line) {
+        const root = document.getElementById('root');
+        if (root) {
+          root.innerHTML = '<div style="padding:40px;color:red;font-family:sans-serif;">' +
+            '<h2>Error de Carga</h2>' +
+            '<p>' + msg + '</p>' +
+            '<small>Línea: ' + line + '</small>' +
+            '<br><button onclick="location.reload()" style="margin-top:20px;padding:10px;background:#2563eb;color:white;border:none;border-radius:5px;">Reintentar</button>' +
+            '</div>';
+        }
+        return false;
+      };
+    </script>
     <script type="module" src="./index.tsx"></script>
 </body>
 </html>
